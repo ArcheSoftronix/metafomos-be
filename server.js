@@ -6,10 +6,15 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const corsOption = {
+    origin: '*', 
+    optionsSuccessStatus: 200
+}
+
 //Connect Database
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOption));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
