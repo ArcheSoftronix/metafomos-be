@@ -177,6 +177,7 @@ router.post(
       if (register_type == "GOOGLE") {
         const tokenId = req.body.tokenObj.id_token;
         verifiedToken = await verifyInGoogle(tokenId);
+        return res.send(verifiedToken);
         google_auth_user_id = verifiedToken.sub;
         picture = verifiedToken.profileObj.imageUrl;
         return res.send(picture);
@@ -188,14 +189,6 @@ router.post(
         picture = req.body.picture.data.url;
         fb_auth_user_id = req.body.userID;
       }
-
-      return res.json({
-        verifiedToken,
-        google_auth_user_id,
-        picture,
-        name,
-        email,
-      });
 
       let user = await User.findOne({ email });
 
