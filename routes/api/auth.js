@@ -244,8 +244,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, accessToken } = req.body;
-    return res.send(req.body);
+    const { accessToken } = req.body;
+    const { email } = req.body.profileObj;
     try {
       let user = await User.findOne({ email });
 
