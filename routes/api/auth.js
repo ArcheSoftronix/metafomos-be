@@ -236,7 +236,7 @@ router.post(
 
 router.post(
   '/sm-login',
-  check('email', 'Please include a valid email').isEmail(),
+  // check('email', 'Please include a valid email').isEmail(),
   check('accessToken', 'Please include a valid token').exists(),
   async (req, res) => {
     const errors = validationResult(req);
