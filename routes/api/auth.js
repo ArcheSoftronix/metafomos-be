@@ -178,6 +178,7 @@ router.post(
         const tokenId = req.body.tokenObj.id_token;
         verifiedToken = await verifyInGoogle(tokenId);
         google_auth_user_id = verifiedToken.sub;
+        return res.send(google_auth_user_id);
         picture = verifiedToken.profileObj.imageUrl;
         name = verifiedToken.profileObj.name;
         email = verifiedToken.profileObj.email;
