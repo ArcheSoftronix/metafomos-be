@@ -176,6 +176,7 @@ router.post(
     try {
       if (register_type == "GOOGLE") {
         const tokenId = req.body.tokenObj.id_token;
+        verifiedToken = await verifyInGoogle(tokenId);
         google_auth_user_id = verifiedToken.sub;
         picture = verifiedToken.picture;
         name = verifiedToken.name;
