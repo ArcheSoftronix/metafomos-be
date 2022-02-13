@@ -166,7 +166,10 @@ router.post(
         return res.status(400).json({ errors: errors.array() });
       }
       const register_type = req.body.register_type
-      let verifiedToken, google_auth_user_id, fb_auth_user_id, picture, email, name
+      let verifiedToken, google_auth_user_id, fb_auth_user_id, picture, email, name;
+      return res.json({
+        verifiedToken, google_auth_user_id, fb_auth_user_id, picture, email, name
+      });
       
       try {
         if(register_type == 'GOOGLE') {
