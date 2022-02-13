@@ -165,12 +165,8 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      return res.send(req.body);
       const register_type = req.body.register_type
       let verifiedToken, google_auth_user_id, fb_auth_user_id, picture, email, name;
-      // return res.json({
-      //   verifiedToken, google_auth_user_id, fb_auth_user_id, picture, email, name
-      // });
       
       try {
         if(register_type == 'GOOGLE') {
@@ -190,6 +186,10 @@ router.post(
           fb_auth_user_id = req.body.userID;
         
         }
+
+        return res.json({
+          verifiedToken, google_auth_user_id, picture, name, email
+        });
         
         let user = await User.findOne({ email });
         
