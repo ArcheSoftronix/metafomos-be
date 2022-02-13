@@ -245,7 +245,7 @@ router.post(
     }
 
     const { email, accessToken } = req.body;
-    return res.json( {email, accessToken} );
+    return res.send(req.body);
     try {
       let user = await User.findOne({ email });
 
