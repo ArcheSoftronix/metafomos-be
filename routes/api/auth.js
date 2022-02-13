@@ -176,13 +176,10 @@ router.post(
     try {
       if (register_type == "GOOGLE") {
         const tokenId = req.body.tokenObj.id_token;
-        verifiedToken = await verifyInGoogle(tokenId);
-        return res.send(verifiedToken);
         google_auth_user_id = verifiedToken.sub;
-        picture = verifiedToken.profileObj.imageUrl;
-        return res.send(picture);
-        name = verifiedToken.profileObj.name;
-        email = verifiedToken.profileObj.email;
+        picture = verifiedToken.picture;
+        name = verifiedToken.name;
+        email = verifiedToken.email;
       } else if (register_type == "FB") {
         name = req.body.name;
         email = req.body.email;
