@@ -176,8 +176,8 @@ router.post(
     try {
       if (register_type == "GOOGLE") {
         const tokenId = req.body.tokenObj.id_token;
-        return res.send(tokenId);
-        verifiedToken = await verifyInGoogle(tokenId).catch(console.error);
+        verifiedToken = await verifyInGoogle(tokenId);
+        return res.send(verifiedToken);
         google_auth_user_id = verifiedToken["sub"];
         picture = verifiedToken.profileObj.imageUrl;
         name = verifiedToken.profileObj.name;
