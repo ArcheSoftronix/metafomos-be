@@ -11,9 +11,7 @@ const auth = require("../../middleware/auth");
 
 /* OAuth2.0 Required Packages */
 const { OAuth2Client } = require("google-auth-library");
-const glClient = new OAuth2Client(
-  "860538264827-8qf2qpp6mqki8asmbpsroulb9u16un61.apps.googleusercontent.com"
-);
+const glClient = new OAuth2Client("860538264827-8qf2qpp6mqki8asmbpsroulb9u16un61.apps.googleusercontent.com");
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -24,6 +22,34 @@ router.get("/", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+router.post('/generate-token2', async (req, res) => {
+  try {
+
+    const user = await User.findByIdAndUpdate(req.user.id, {is_logged_in_first_time: false})
+
+    const payload = {
+      user: {
+        id: req.user.id,
+      }
+    };
+
+    /* GENERATING TOKEN#2 */
+    jwt.sign(
+      payload,
+      config.get("jwtSecret"),
+      { expiresIn: "5 days" },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+})
 
 router.post(
   "/login",

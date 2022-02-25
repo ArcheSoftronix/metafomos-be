@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   register_type:  { type: String, default: 'NORMAL_SIGNUP'},
   google_auth_user_id: { type: String },
   fb_auth_user_id: { type: String },
+  is_logged_in_first_time: { type: Boolean, default: true },
   avatar:         { type: String, default: 'defaultUser.png'},  
   wallet:         { type: String },
   date_form:      { type: Date, default: Date.now }
