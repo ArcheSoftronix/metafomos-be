@@ -234,6 +234,7 @@ router.post(
         register_type,
         google_auth_user_id,
         fb_auth_user_id,
+        is_logged_in_first_time: true
       });
 
       await user.save();
@@ -251,7 +252,7 @@ router.post(
         { expiresIn: "5 days" },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, is_logged_in_first_time: true });
         }
       );
     } catch (err) {
