@@ -11,7 +11,7 @@ const auth = require("../../middleware/auth");
 
 /* OAuth2.0 Required Packages */
 const { OAuth2Client } = require("google-auth-library");
-const glClient = new OAuth2Client("860538264827-8qf2qpp6mqki8asmbpsroulb9u16un61.apps.googleusercontent.com");
+const glClient = new OAuth2Client("<CLIENT ID>");
 
 router.get("/", auth, async (req, res) => {
   try {
@@ -23,17 +23,16 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.post('/generate-token2', async (req, res) => {
+router.post('/generate-token2', auth, async (req, res) => {
   try {
-
     const user = await User.findByIdAndUpdate(req.user.id, {is_logged_in_first_time: false})
-
+    
     const payload = {
       user: {
         id: req.user.id,
       }
     };
-
+    
     /* GENERATING TOKEN#2 */
     jwt.sign(
       payload,
@@ -41,7 +40,7 @@ router.post('/generate-token2', async (req, res) => {
       { expiresIn: "5 days" },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        res.json({ token, is_logged_in_first_time: false });
       }
     );
 
@@ -139,6 +138,7 @@ router.post(
       user = new User({
         email,
         password,
+        is_logged_in_first_time: true
       });
 
       const salt = await bcrypt.genSalt(10);
@@ -160,7 +160,7 @@ router.post(
         { expiresIn: "5 days" },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, is_logged_in_first_time: true });
         }
       );
     } catch (err) {
@@ -175,7 +175,7 @@ async function verifyInGoogle(token) {
   const ticket = await glClient.verifyIdToken({
     idToken: token,
     audience:
-      "860538264827-8qf2qpp6mqki8asmbpsroulb9u16un61.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+      "<CLIENT ID>", // Specify the CLIENT_ID of the app that accesses the backend
   });
   const payload = ticket.getPayload();
   return payload;
